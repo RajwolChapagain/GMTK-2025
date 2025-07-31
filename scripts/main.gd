@@ -1,14 +1,39 @@
 extends Node
 
+var initial_state
+
 func _ready() -> void:
-	%CameraAnimationPlayer.connect("animation_started", on_camera_animation_started)
-	%CameraAnimationPlayer.connect("animation_finished", on_camera_animation_finished)
+	%CameraAnimationPlayer.animation_started.connect(on_camera_animation_started)
+	%CameraAnimationPlayer.animation_finished.connect(on_camera_animation_finished)
 	%CameraAnimationPlayer.play("take_snapshot")
 	%UI.set_time_slider_max_value(%DayTimer.wait_time)
-
+	%DayTimer.timeout.connect(on_day_timer_timeout)
+	initial_state = %World.get_state()
+	print('World state initialized at:')
+	print(initial_state)
+	
 func _process(delta: float) -> void:
 	%UI.set_time_slider_value(%DayTimer.wait_time - %DayTimer.time_left)
+		
+func get_snapshot() -> Texture2D:
+	var img = %Camera2D.get_viewport().get_texture().get_image()
+	return ImageTexture.create_from_image(img)
 	
+func is_same_state(state1, state2) -> bool:
+	return state1 == state2
+	
+func on_day_timer_timeout() -> void:
+	var final_state = %World.get_state()
+	print()
+	print('World state finalized at:')
+	print(final_state)
+	if is_same_state(initial_state, final_state):
+		print('Game won!')
+	else:
+		%World.set_state(final_state)
+		initial_state = final_state
+		print('Loop')
+		
 func on_camera_animation_started(anim: String) -> void:
 	if anim == "take_snapshot":
 		%UI.visible = false
@@ -20,7 +45,3 @@ func on_camera_animation_finished(anim: String) -> void:
 	if anim == "return_to_normal":
 		%DayTimer.start()
 		%UI.visible = true
-		
-func get_snapshot() -> Texture2D:
-	var img = %Camera2D.get_viewport().get_texture().get_image()
-	return ImageTexture.create_from_image(img)

@@ -11,5 +11,6 @@ script = ExtResource("1_4wyf3")
 [node name="Ground" type="Sprite2D" parent="."]
 texture = ExtResource("1_nnsk1")
 
-[node name="Hourglass" parent="." instance=ExtResource("2_rwgxs")]
-position = Vector2(0, -619)
+[node name="Hourglass" parent="." groups=["stateful"] instance=ExtResource("2_rwgxs")]
+position = Vector2(1.52588e-05, -619)
+scale = Vector2(1, 1)
