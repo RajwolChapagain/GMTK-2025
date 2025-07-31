@@ -1,13 +1,117 @@
-[gd_scene load_steps=3 format=3 uid="uid://2c0c356ubt7m"]
+[gd_scene load_steps=9 format=3 uid="uid://2c0c356ubt7m"]
 
 [ext_resource type="PackedScene" uid="uid://dfumf0si3mdws" path="res://scenes/world.tscn" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://b2yepclst7vy0" path="res://scripts/main.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://1o30h2732ymm" path="res://scenes/player.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://dr5fi2u03bxtg" path="res://scenes/ui.tscn" id="4_jyhfs"]
+
+[sub_resource type="Animation" id="Animation_sugp2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:zoom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jyhfs"]
+resource_name = "return_to_normal"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 565), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:zoom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.565, 0.565), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_0wfyh"]
+resource_name = "take_snapshot"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 565)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:zoom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.565, 0.565)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tbgi4"]
+_data = {
+&"RESET": SubResource("Animation_sugp2"),
+&"return_to_normal": SubResource("Animation_jyhfs"),
+&"take_snapshot": SubResource("Animation_0wfyh")
+}
 
 [node name="Main" type="Node"]
+script = ExtResource("1_sugp2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource("4_jyhfs")]
+unique_name_in_owner = true
 
 [node name="World" parent="." instance=ExtResource("1_0wfyh")]
 position = Vector2(0, 651)
+scale = Vector2(1, 1)
 
 [node name="Player" parent="." instance=ExtResource("2_sugp2")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CameraAnimationPlayer" type="AnimationPlayer" parent="Camera2D"]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_tbgi4")
+}
