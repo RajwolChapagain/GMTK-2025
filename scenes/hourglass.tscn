@@ -1,11 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://cmccydrsy5got"]
+[gd_scene load_steps=6 format=3 uid="uid://cmccydrsy5got"]
 
 [ext_resource type="Script" uid="uid://bwv5ynxwlrd2r" path="res://scripts/hourglass.gd" id="1_21rql"]
-[ext_resource type="Texture2D" uid="uid://cmk3suexuumih" path="res://assets/hourglass.png" id="1_136ty"]
+[ext_resource type="Texture2D" uid="uid://cmk3suexuumih" path="res://assets/hourglass_top_full.png" id="2_gljpn"]
+[ext_resource type="Texture2D" uid="uid://bmtaajc65yexh" path="res://assets/hourglass_top_half.png" id="3_iemr1"]
+[ext_resource type="Texture2D" uid="uid://b3xyti6chhd6d" path="res://assets/hourglass_top_empty.png" id="4_5hiwc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qjjj4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_gljpn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_iemr1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5hiwc")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.5
+}]
 
 [node name="Hourglass" type="Node2D"]
 script = ExtResource("1_21rql")
 state_names = Array[StringName]([&"sand_state"])
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_136ty")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_qjjj4")
+autoplay = "default"

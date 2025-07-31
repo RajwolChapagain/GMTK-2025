@@ -119,5 +119,5 @@ libraries = {
 
 [node name="DayTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 5.0
+wait_time = 8.0
 one_shot = true

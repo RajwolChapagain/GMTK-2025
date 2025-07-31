@@ -2,9 +2,16 @@ extends Node2D
 
 @export var state_names: Array[StringName]
 
-enum SAND_STATES { TOP_FULL, TOP_HALF, TOP_EMPTY }
-var sand_state = SAND_STATES.TOP_FULL
+@onready var sand_state = %AnimatedSprite2D.frame:
+	get:
+		return sand_state
+	set(value):
+		%AnimatedSprite2D.frame = value
+		sand_state = value
 
+func _ready() -> void:
+	%AnimatedSprite2D.frame_changed.connect(on_animation_frame_changed)
+	
 func get_state() -> Dictionary:
 	var state = {}
 	
@@ -20,3 +27,6 @@ func get_state() -> Dictionary:
 func set_state(states: Dictionary) -> void:
 	for state_name in states:
 		set(state_name, states[state_name])
+
+func on_animation_frame_changed() -> void:
+	sand_state = %AnimatedSprite2D.frame
