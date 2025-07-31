@@ -26,3 +26,8 @@ func set_state(state: Dictionary) -> void:
 	for child in get_children():
 		if child.is_in_group('stateful'):
 			child.set_state(state[child.name])
+
+func on_crossed_noon() -> void:
+	for child in get_children():
+		if child.has_method('on_crossed_noon'):
+			child.on_crossed_noon()

@@ -1,17 +1,27 @@
 extends Node
 
 var initial_state: Dictionary
+var past_noon: bool = false
+signal crossed_noon
 
 func _ready() -> void:
 	%CameraAnimationPlayer.animation_started.connect(on_camera_animation_started)
 	%CameraAnimationPlayer.animation_finished.connect(on_camera_animation_finished)
 	%DayTimer.timeout.connect(on_day_timer_timeout)
+	crossed_noon.connect(%World.on_crossed_noon)
 	%UI.set_time_slider_max_value(%DayTimer.wait_time)
 	initial_state = %World.get_state()
 	%CameraAnimationPlayer.play("take_snapshot")
 	
 func _process(delta: float) -> void:
 	%UI.set_time_slider_value(%DayTimer.wait_time - %DayTimer.time_left)
+	if not past_noon:
+		mid_day_check()
+		
+func mid_day_check() -> void:
+	if not %DayTimer.is_stopped() and %DayTimer.time_left < %DayTimer.wait_time / 2.0:
+		past_noon = true
+		crossed_noon.emit()
 		
 func get_snapshot() -> Texture2D:
 	var img = %Camera2D.get_viewport().get_texture().get_image()

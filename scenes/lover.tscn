@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://cliknk0m380p3"]
+
+[ext_resource type="Texture2D" uid="uid://c33j0yhrmvr0s" path="res://assets/lover_sad.png" id="1_f08m8"]
+[ext_resource type="Script" uid="uid://su3n2iqjg24s" path="res://scripts/lover.gd" id="1_xu412"]
+[ext_resource type="Texture2D" uid="uid://dba43j4cb0vqg" path="res://assets/lover_happy.png" id="2_xu412"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e7akm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_f08m8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_xu412")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tuysn"]
+radius = 33.0
+
+[node name="Lover" type="Area2D"]
+script = ExtResource("1_xu412")
+state_names = Array[StringName]([&"emotional_state"])
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_e7akm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_tuysn")
