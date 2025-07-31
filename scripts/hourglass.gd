@@ -28,5 +28,9 @@ func set_state(states: Dictionary) -> void:
 	for state_name in states:
 		set(state_name, states[state_name])
 
+func interact() -> void:
+	sand_state = 0
+	%AnimatedSprite2D.play("default")
+	
 func on_animation_frame_changed() -> void:
 	sand_state = %AnimatedSprite2D.frame
