@@ -115,3 +115,8 @@ unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_tbgi4")
 }
+
+[node name="DayTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.0
+one_shot = true
