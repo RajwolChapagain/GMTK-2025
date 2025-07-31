@@ -7,13 +7,19 @@ func _process(delta: float) -> void:
 		rotate(deg_to_rad(angular_speed*delta))
 	elif Input.is_action_pressed("move_right"):
 		rotate(deg_to_rad(-angular_speed*delta))
-
+	
 func get_state() -> Dictionary:
 	var state = {}
 	for child in get_children():
 		if child.is_in_group('stateful'):
 			state[child.name] = child.get_state()
+
+	var normalized_angle = int(rotation_degrees) % 360
+	if normalized_angle < 0:
+		normalized_angle = 360 + normalized_angle
 	
+	var sector = floori(normalized_angle / 36)
+	state['world'] = {'sector': sector}
 	return state
 
 func set_state(state: Dictionary) -> void:

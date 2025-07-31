@@ -1,6 +1,6 @@
 extends Node
 
-var initial_state
+var initial_state: Dictionary
 
 func _ready() -> void:
 	%CameraAnimationPlayer.animation_started.connect(on_camera_animation_started)
@@ -44,6 +44,8 @@ func on_camera_animation_finished(anim: String) -> void:
 	if anim == "take_snapshot":
 		%UI.set_snapshot(get_snapshot())
 		%CameraAnimationPlayer.play("return_to_normal")
+		print('World initialized at ')
+		print(initial_state)
 	if anim == "return_to_normal":
 		%DayTimer.start()
 		%UI.visible = true
